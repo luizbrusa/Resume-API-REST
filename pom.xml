@@ -15,8 +15,8 @@
 	<name>resumeREST</name>
 	<description>Resume API REST</description>
 	<properties>
-	    <java.version>18.0.1</java.version>
-	    <maven.compiler.source>18.0.1</maven.compiler.source>
+	    <java.version>17.0.2</java.version>
+	    <maven.compiler.source>17.0.2</maven.compiler.source>
 	    <maven.compiler.target>17.0.2</maven.compiler.target>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <maven.test.skip>true</maven.test.skip>
