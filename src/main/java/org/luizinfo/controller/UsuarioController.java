@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = "Usuários")
+@Api(tags = "Métodos do Controller de Usuários")
 @RestController
 @RequestMapping(value = "/usuario")
 public class UsuarioController {

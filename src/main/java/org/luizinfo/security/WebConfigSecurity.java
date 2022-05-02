@@ -28,7 +28,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 		
 		//Ativando acesso a página inicial do sistema, e as que não exigem login
-		.disable().authorizeRequests().antMatchers("/","/index","/recuperarLogin/**").permitAll()
+		.disable().authorizeRequests().antMatchers("/","/index","/tokenAcesso","/recuperarLogin/**").permitAll()
 
 		//Liberação para acesso direto à API Swagger
 		.antMatchers("/swagger-resources/**","/swagger-ui/**","/v2/**").permitAll()

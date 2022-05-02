@@ -1,5 +1,6 @@
 package org.luizinfo.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -73,6 +74,14 @@ public class Usuario implements UserDetails {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+	
+	public List<Role> getRoles() {
+		return roles == null ? new ArrayList<Role>() : roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	@Override

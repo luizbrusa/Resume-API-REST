@@ -33,25 +33,31 @@ public class JWTTokenAutenticacaoService {
 	
 	//Cabeçalho padrão de Autorização do TOKEN
 	private static final String HEADER_STRING = "Authorization";
-	
-	//Gerando TOKEN de autenticação e adicionando ao cabeçalho a resposta HTTP
-	public void addAuthentication(HttpServletRequest request, HttpServletResponse response, String username) throws IOException {
-		
+
+	public String montagemTokenJwt(String userName) {
 		//Montagem do TOKEN
 		String jwt = Jwts.builder() //Geração do TOKEN
-				.setSubject(username) //Adiciona o Usuário
+				.setSubject(userName) //Adiciona o Usuário já validado ao Token
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //Tempo de Expiração
 				.signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact(); //Compactação e geração de Senha
 
 		//Atualiza o TOKEN para o Usuário logando
-		ApplicationContextLoad.getApplicationContext().getBean(IUsuario.class).atualizaTokenUsuario(username, jwt);
+		ApplicationContextLoad.getApplicationContext().getBean(IUsuario.class).atualizaTokenUsuario(userName, jwt);
 
-		//Adiciona o Prefixo ao Token
-		String token = TOKEN_PREFIX + " " + jwt;
+		//Adiciona o Prefixo ao Token e retorna
+		return jwt;
+	}
+	
+	//Gerando TOKEN de autenticação e adicionando ao cabeçalho a resposta HTTP
+	public void addAuthentication(HttpServletRequest request, HttpServletResponse response, String username) throws IOException {
+		
+		//Monta o Token com o Usuário já validado anteriormente
+		String token = montagemTokenJwt(username);
 
 		//Adiciona o Token no Cabeçalho HTTP da Resposta
-		response.addHeader(HEADER_STRING, token);
+		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + token);
 		
+		//Libera Cors para qualquer aplicação externa acessar a API
 		liberacaoCors(response);
 		
 		//Adiciona o Token como resposta no corpo do HTTP

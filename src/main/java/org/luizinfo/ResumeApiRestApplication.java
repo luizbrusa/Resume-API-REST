@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -21,11 +20,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RestController
 @EnableAutoConfiguration
 @EnableCaching
-public class ResumeRestApplication implements WebMvcConfigurer {
+public class ResumeApiRestApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ResumeRestApplication.class, args);
-		System.out.println(new BCryptPasswordEncoder().encode("1234"));
+		SpringApplication.run(ResumeApiRestApplication.class, args);
 	}
 
 	@Override

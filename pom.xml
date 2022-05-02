@@ -80,6 +80,13 @@
 		    <version>0.9.1</version>
 		</dependency>
 
+		<!-- SUN Javax Mail -->
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
+		</dependency>
+
 		<!-- SpringFox Swagger -->
 		<dependency>
 		    <groupId>io.springfox</groupId>
