@@ -60,7 +60,7 @@ public class PublicController {
 			if (passwordEncoder.matches(usuario.getSenha(), usuarioAux.getSenha())) {
 				String token = new JWTTokenAutenticacaoService().montagemTokenJwt(usuario.getLogin());
 
-				return new ResponseEntity<String>("{\"Token\" : \"" + token + "\"}", HttpStatus.OK);
+				return new ResponseEntity<String>("{\"Authorization\" : \"" + token + "\"}", HttpStatus.OK);
 			} else {
 				return new ResponseEntity<String>("Senha Incorreta!", HttpStatus.BAD_REQUEST);
 			}
