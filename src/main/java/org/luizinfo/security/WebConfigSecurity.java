@@ -16,26 +16,25 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private IUserDetailsService iUserDetailsService;
 
 	//Configura as soliictações de acesso por HTTP
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 		//Ativando validação para usuários logados somente com TOKEN
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 		
 		//Ativando acesso a página inicial do sistema, e as que não exigem login
-		.disable().authorizeRequests().antMatchers("/","/index","/tokenAcesso","/recuperarLogin/**").permitAll()
+		.disable().authorizeRequests().antMatchers("/","/index","/tokenAcesso","/pessoa/{id}","/pessoa/usuario/**","/recuperarLogin/**").permitAll()
 
 		//Liberação para acesso direto à API Swagger
 		.antMatchers("/swagger-resources/**","/swagger-ui/**","/v2/**").permitAll()
 
 		//Liberação de CORS para autenticação na API através de Navegadores Web
 		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-		
+
 		//URL de Logout, redireciona para a página inicial do sistema após deslogar
 		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
 		
@@ -57,6 +56,6 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		
 		//Codificador de Senha
 		.passwordEncoder(new BCryptPasswordEncoder());
-	}
 	
+	}
 }

@@ -12,12 +12,10 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,16 +25,15 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "Métodos do Controller de Usuários")
 @RestController
 @RequestMapping(value = "/usuario")
-public class UsuarioController {
+public class UsuarioController implements CrudController<Usuario> {
 	
 	@Autowired
 	private IUsuario iUsuario;
 
-	@ApiOperation(value = "Listar Todos os Usuários cadastrados")
+	@Override
 	@CacheEvict(value="cacheListarUsuarios")
 	@CachePut(value = "cacheListarUsuarios")
-	@GetMapping(value = "/", produces = "application/json")
-	public ResponseEntity<?> listar() throws InterruptedException {
+	public ResponseEntity<?> listar() {
 		
 		List<Usuario> usuarios = iUsuario.findAll();
 		
@@ -47,9 +44,8 @@ public class UsuarioController {
 		}
 	}
 
-	@ApiOperation(value = "Cadastrar novo Usuário")
-	@PostMapping(value = "/", produces = "application/json", consumes="application/json")
-	public ResponseEntity<?> inserir(@RequestBody Usuario usuario) {
+	@Override
+	public ResponseEntity<?> inserir(@RequestBody Usuario usuario, @RequestHeader(name="Authorization") String token) {
 		
 		if (usuario.getId() != null) {
 			return new ResponseEntity<String>("ID do Usuário não deve ser Informado para cadastrar!", HttpStatus.BAD_REQUEST);
@@ -64,9 +60,8 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(usuarioAux, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Atualizar o Cadastro de um Usuário")
-	@PutMapping(value = "/", produces = "application/json", consumes="application/json")
-	public ResponseEntity<?> atualizar(@RequestBody Usuario usuario) {
+	@Override
+	public ResponseEntity<?> atualizar(@RequestBody Usuario usuario, @RequestHeader(name="Authorization") String token) {
 		
 		if (usuario.getId() == null) {
 			return new ResponseEntity<String>("ID do Usuário não foi Informado para atualizar!", HttpStatus.BAD_REQUEST);
@@ -85,9 +80,8 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(usuarioAux, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Excluir o Cadastro de um Usuário")
-	@DeleteMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<?> excluir(@PathVariable(value = "id") Long id) {
+	@Override
+	public ResponseEntity<?> excluir(@PathVariable(value = "id") Long id, @RequestHeader(name="Authorization") String token) {
 		Optional<Usuario> usuarioOp = iUsuario.findById(id);
 		
 		if (usuarioOp.isPresent()) {
@@ -98,8 +92,7 @@ public class UsuarioController {
 		}
 	}
 
-	@ApiOperation(value = "Localizar um Usuário pelo ID")
-	@GetMapping(value = "/{id}", produces = "application/json")
+	@Override
 	public ResponseEntity<?> localizar(@PathVariable(value = "id") Long id) {
 		Optional<Usuario> usuarioOp = iUsuario.findById(id);
 		

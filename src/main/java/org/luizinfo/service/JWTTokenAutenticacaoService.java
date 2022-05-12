@@ -24,6 +24,7 @@ public class JWTTokenAutenticacaoService {
 
 	//Tempo de Validade do TOKEN em milissegundos = 2 dias
 	private static final long EXPIRATION_TIME = 172800000;
+//	private static final long EXPIRATION_TIME = 60000; //1 minuto, somente para testes
 
 	//Uma senha única para compor a autenticação e ajudar na segurança
 	private static final String SECRET_KEY = "SenhaForte";
@@ -34,7 +35,8 @@ public class JWTTokenAutenticacaoService {
 	//Cabeçalho padrão de Autorização do TOKEN
 	private static final String HEADER_STRING = "Authorization";
 
-	public String montagemTokenJwt(String userName) {
+	//Montar o Token JWT de Autenticação
+	public String getTokenJwt(String userName) {
 		//Montagem do TOKEN
 		String jwt = Jwts.builder() //Geração do TOKEN
 				.setSubject(userName) //Adiciona o Usuário já validado ao Token
@@ -47,26 +49,28 @@ public class JWTTokenAutenticacaoService {
 		//Adiciona o Prefixo ao Token e retorna
 		return jwt;
 	}
-	
-	//Gerando TOKEN de autenticação e adicionando ao cabeçalho a resposta HTTP
-	public void addAuthentication(HttpServletRequest request, HttpServletResponse response, String username) throws IOException {
-		
-		//Monta o Token com o Usuário já validado anteriormente
-		String token = montagemTokenJwt(username);
 
+	//Recupera o Usuário a partir do TOKEN JWT da requisição
+	public String getLoginUsuarioToken(String token) {
+		return Jwts.parser().setSigningKey(SECRET_KEY)
+				.parseClaimsJws(token)
+				.getBody().getSubject();
+	}
+
+	//Gerando TOKEN de autenticação e adicionando ao cabeçalho a resposta HTTP
+	public void addAuthentication(HttpServletRequest request, HttpServletResponse response, String userName) throws IOException {
+		//Monta o Token com o Usuário já validado anteriormente
+		String token = getTokenJwt(userName);
 		//Adiciona o Token no Cabeçalho HTTP da Resposta
 		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + token);
-		
 		//Libera Cors para qualquer aplicação externa acessar a API
 		liberacaoCors(response);
-		
 		//Adiciona o Token como resposta no corpo do HTTP
 		response.getWriter().write("{\"" + HEADER_STRING + "\" : \"" + token + "\"}");
 	}
 	
 	//Retorna o Usuário Validado com o TOKEN, se não for válido, retorna NULL
 	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
-		
 		//recupera o TOKEN do cabeçalho HTTP
 		String header = request.getHeader(HEADER_STRING);
 		liberacaoCors(response);
@@ -77,11 +81,7 @@ public class JWTTokenAutenticacaoService {
 			
 			try {
 				if (token != null) {
-					//Recupera o Usuário a partir do TOKEN da requisição
-					String user = Jwts.parser().setSigningKey(SECRET_KEY)
-							.parseClaimsJws(token)
-							.getBody().getSubject();
-					
+					String user = getLoginUsuarioToken(token);
 					if (user != null) {
 						Usuario usuario = ApplicationContextLoad.getApplicationContext()
 								.getBean(IUsuario.class).findByLogin(user);

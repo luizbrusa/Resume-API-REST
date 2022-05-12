@@ -20,7 +20,7 @@ public class JWTApiAutenticacaoFilter extends GenericFilterBean {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
+
 		//Estabelece a autenticação para a requisição
 		Authentication authentication = new JWTTokenAutenticacaoService()
 				.getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);

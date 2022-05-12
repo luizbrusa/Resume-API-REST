@@ -58,9 +58,8 @@ public class PublicController {
 		if (usuarioAux != null) {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			if (passwordEncoder.matches(usuario.getSenha(), usuarioAux.getSenha())) {
-				String token = new JWTTokenAutenticacaoService().montagemTokenJwt(usuario.getLogin());
-
-				return new ResponseEntity<String>("{\"Authorization\" : \"" + token + "\"}", HttpStatus.OK);
+				String token = new JWTTokenAutenticacaoService().getTokenJwt(usuario.getLogin());
+				return new ResponseEntity<String>("{\"Token\" : \"" + token + "\"}", HttpStatus.OK);
 			} else {
 				return new ResponseEntity<String>("Senha Incorreta!", HttpStatus.BAD_REQUEST);
 			}
@@ -99,5 +98,4 @@ public class PublicController {
 
 		return new ResponseEntity<Erro>(erro,HttpStatus.OK);
 	}
-	
 }
