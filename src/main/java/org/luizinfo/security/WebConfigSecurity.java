@@ -20,11 +20,12 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private IUserDetailsService iUserDetailsService;
 
-	//Configura as soliictações de acesso por HTTP
+	//Configura as solicitações de acesso por HTTP
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http
 		//Ativando validação para usuários logados somente com TOKEN
-		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 		
 		//Ativando acesso a página inicial do sistema, e as que não exigem login
 		.disable().authorizeRequests().antMatchers("/","/index","/tokenAcesso","/pessoa/{id}","/pessoa/usuario/**","/recuperarLogin/**").permitAll()

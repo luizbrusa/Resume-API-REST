@@ -3,10 +3,12 @@ package org.luizinfo.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.luizinfo.model.Experience;
 import org.luizinfo.model.Hobbie;
 import org.luizinfo.model.Internationalization;
 import org.luizinfo.model.Media;
 import org.luizinfo.model.Pessoa;
+import org.luizinfo.model.Post;
 import org.luizinfo.model.Usuario;
 import org.luizinfo.repository.IPessoa;
 import org.luizinfo.repository.IUsuario;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,21 +58,38 @@ public class PessoaController implements CrudController<Pessoa> {
 	}
 	
 	@Override
-	public ResponseEntity<?> inserir(@RequestBody Pessoa objeto, @RequestHeader(name="Authorization") String token) {
+	public ResponseEntity<?> inserir(@RequestBody Pessoa objeto, 
+			@RequestHeader(name="Authorization") String token) {
 		
 		if (objeto.getId() != null) {
 			return new ResponseEntity<String>("ID da Pessoa não deve ser Informado para cadastrar!", HttpStatus.BAD_REQUEST);
 		}
-		for (Media media : objeto.getMedias()) {
-			media.setPessoa(objeto);
+		if (objeto.getMedias().size() > 0) {
+			for (Media media : objeto.getMedias()) {
+				media.setPessoa(objeto);
+			}
 		}
-		for (Hobbie hobbie : objeto.getHobbies()) {
-			hobbie.setPessoa(objeto);
+		if (objeto.getHobbies().size() > 0) {
+			for (Hobbie hobbie : objeto.getHobbies()) {
+				hobbie.setPessoa(objeto);
+			}
 		}
-		for (Internationalization internationalization : objeto.getInternationalizations()) {
-			internationalization.setPessoa(objeto);
+		if (objeto.getInternationalizations().size() > 0) {
+			for (Internationalization internationalization : objeto.getInternationalizations()) {
+				internationalization.setPessoa(objeto);
+			}
 		}
-		
+		if (objeto.getExperiences().size() > 0) {
+			for (Experience experience : objeto.getExperiences()) {
+				experience.setPessoa(objeto);
+			}
+		}
+		if (objeto.getPosts().size() > 0) {
+			for (Post post : objeto.getPosts()) {
+				post.setPessoa(objeto);
+			}
+		}
+
 		Pessoa pessoaAux = iPessoa.save(objeto);
 
 		Usuario usuario = iUsuario.findByLogin(jwtTokenAutenticacaoService.getLoginUsuarioToken(token));
@@ -80,19 +100,46 @@ public class PessoaController implements CrudController<Pessoa> {
 	}
 
 	@Override
-	public ResponseEntity<?> atualizar(@RequestBody Pessoa objeto, @RequestHeader(name="Authorization") String token) {
+	public ResponseEntity<?> atualizar(@RequestBody Pessoa objeto,
+			@RequestHeader(name="Authorization") String token) {
 		
 		if (objeto.getId() == null) {
 			return new ResponseEntity<String>("ID da Pessoa não foi Informado para atualizar!", HttpStatus.BAD_REQUEST);
 		}
-		
+		if (objeto.getMedias().size() > 0) {
+			for (Media media : objeto.getMedias()) {
+				media.setPessoa(objeto);
+			}
+		}
+		if (objeto.getHobbies().size() > 0) {
+			for (Hobbie hobbie : objeto.getHobbies()) {
+				hobbie.setPessoa(objeto);
+			}
+		}
+		if (objeto.getInternationalizations().size() > 0) {
+			for (Internationalization internationalization : objeto.getInternationalizations()) {
+				internationalization.setPessoa(objeto);
+			}
+		}
+		if (objeto.getExperiences().size() > 0) {
+			for (Experience experience : objeto.getExperiences()) {
+				experience.setPessoa(objeto);
+			}
+		}
+		if (objeto.getPosts().size() > 0) {
+			for (Post post : objeto.getPosts()) {
+				post.setPessoa(objeto);
+			}
+		}
+
 		Pessoa pessoaAux = iPessoa.save(objeto);
 		
 		return new ResponseEntity<Pessoa>(pessoaAux, HttpStatus.OK);
 	}
 
 	@Override
-	public ResponseEntity<?> excluir(@PathVariable(value = "id") Long id, @RequestHeader(name="Authorization") String token) {
+	public ResponseEntity<?> excluir(@PathVariable(value = "id") Long id, 
+			@RequestHeader(name="Authorization") String token) {
 		Optional<Pessoa> pessoaOp = iPessoa.findById(id);
 		
 		if (pessoaOp.isPresent()) {
@@ -115,7 +162,7 @@ public class PessoaController implements CrudController<Pessoa> {
 	}
 
 	@ApiOperation(value = "Localizar Pessoas por uma parte do nome")
-	@GetMapping(value = "/listar/{nome}", produces = "application/json")
+	@GetMapping(value = "/listar/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> localizar(@PathVariable(value = "nome") String nome) throws InterruptedException {
 		
 		List<Pessoa> pessoas = iPessoa.findByNomeLike(nome.toUpperCase());
@@ -123,7 +170,7 @@ public class PessoaController implements CrudController<Pessoa> {
 	}
 
 	@ApiOperation(value = "Retornar Pessoa vinculada a um Usuário")
-	@GetMapping(value = "/usuario/{loginUser}", produces = "application/json")
+	@GetMapping(value = "/usuario/{loginUser}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> localizarPorUsuario(@PathVariable(value = "loginUser") String loginUser) {
 		Usuario usuario = iUsuario.findByLogin(loginUser);
 		if (usuario != null) {

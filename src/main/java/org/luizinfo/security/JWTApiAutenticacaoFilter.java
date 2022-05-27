@@ -28,8 +28,30 @@ public class JWTApiAutenticacaoFilter extends GenericFilterBean {
 		//Coloca o processo de authenticação no spring security
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
+		//Libera Cors para qualquer aplicação externa acessar a API
+		liberacaoCors((HttpServletResponse) response);
+		
 		//Finaliza o processo de filtragem
 		chain.doFilter(request, response);
 	}
 	
+	private void liberacaoCors(HttpServletResponse response) {
+
+		if (response.getHeader("Access-Control-Allow-Origin") == null) {
+			response.addHeader("Access-Control-Allow-Origin", "*");
+		}
+
+		if (response.getHeader("Access-Control-Allow-Headers") == null) {
+			response.addHeader("Access-Control-Allow-Headers", "*");
+		}
+
+		if (response.getHeader("Access-Control-Request-Headers") == null) {
+			response.addHeader("Access-Control-Request-Headers", "*");
+		}
+
+		if (response.getHeader("Access-Control-Allow-Methods") == null) {
+			response.addHeader("Access-Control-Allow-Methods", "*" );
+		}
+	}
+
 }

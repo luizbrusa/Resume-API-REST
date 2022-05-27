@@ -48,14 +48,21 @@ public class ExperienceController implements CrudController<Experience> {
 		if (objeto.getId() != null) {
 			return new ResponseEntity<String>("ID do Registro não deve ser Informado para cadastrar!", HttpStatus.BAD_REQUEST);
 		}
-		for (Internationalization internationalization : objeto.getInternationalizations()) {
-			internationalization.setExperience(objeto);
+		
+		if (objeto.getInternationalizations().size() > 0) {
+			for (Internationalization internationalization : objeto.getInternationalizations()) {
+				internationalization.setExperience(objeto);
+			}
 		}
-		for (Technology technology : objeto.getTechnologies()) {
-			technology.setExperience(objeto);
+		if (objeto.getTechnologies().size() > 0) {
+			for (Technology technology : objeto.getTechnologies()) {
+				technology.setExperience(objeto);
+			}
 		}
-		for (Media media : objeto.getMedias()) {
-			media.setExperience(objeto);
+		if (objeto.getMedias().size() > 0) {
+			for (Media media : objeto.getMedias()) {
+				media.setExperience(objeto);
+			}
 		}
 		iExperience.save(objeto);
 		

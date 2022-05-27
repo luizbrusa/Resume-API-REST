@@ -53,7 +53,7 @@ public class JWTTokenAutenticacaoService {
 	//Recupera o Usuário a partir do TOKEN JWT da requisição
 	public String getLoginUsuarioToken(String token) {
 		return Jwts.parser().setSigningKey(SECRET_KEY)
-				.parseClaimsJws(token)
+				.parseClaimsJws(token.replace(TOKEN_PREFIX, "").trim())
 				.getBody().getSubject();
 	}
 
@@ -63,7 +63,8 @@ public class JWTTokenAutenticacaoService {
 		String token = getTokenJwt(userName);
 		//Adiciona o Token no Cabeçalho HTTP da Resposta
 		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + token);
-		//Libera Cors para qualquer aplicação externa acessar a API
+
+		//Libera Cros Origins
 		liberacaoCors(response);
 		//Adiciona o Token como resposta no corpo do HTTP
 		response.getWriter().write("{\"" + HEADER_STRING + "\" : \"" + token + "\"}");
@@ -72,13 +73,10 @@ public class JWTTokenAutenticacaoService {
 	//Retorna o Usuário Validado com o TOKEN, se não for válido, retorna NULL
 	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 		//recupera o TOKEN do cabeçalho HTTP
-		String header = request.getHeader(HEADER_STRING);
-		liberacaoCors(response);
+		String token = request.getHeader(HEADER_STRING);
 
-		if (header != null) {
+		if (token != null) {
 			//Recupera o Token da requisição para comparar com o do Usuário
-			String token = header.replace(TOKEN_PREFIX, "").trim();
-			
 			try {
 				if (token != null) {
 					String user = getLoginUsuarioToken(token);
@@ -89,7 +87,7 @@ public class JWTTokenAutenticacaoService {
 						//Retorna o usuário logado
 						if (usuario != null) {
 							//Valida o Token do Usuário com o Token da Requisição
-							if (token.equals(usuario.getToken())) {
+							if (token.replace(TOKEN_PREFIX, "").trim().equals(usuario.getToken())) {
 								return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(), usuario.getAuthorities());
 							}
 						}

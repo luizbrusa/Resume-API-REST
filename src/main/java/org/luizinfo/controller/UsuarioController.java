@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = "Métodos do Controller de Usuários")
 @RestController
+@Api(tags = "Métodos do Controller de Usuários")
 @RequestMapping(value = "/usuario")
 public class UsuarioController implements CrudController<Usuario> {
 	

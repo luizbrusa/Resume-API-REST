@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = "Métodos Públicos da API")
 @RestController
+@Api(tags = "Métodos Públicos da API")
 public class PublicController {
 	
 	@Autowired

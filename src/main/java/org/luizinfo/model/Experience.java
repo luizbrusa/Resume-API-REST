@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -34,16 +35,16 @@ public class Experience implements Serializable {
 	@Column(nullable = false)
 	private int position;
 	
-	@JsonFormat(pattern = "MM-dd-yyyy")
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date startAt;
 	
-	@JsonFormat(pattern = "MM-dd-yyyy")
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
 	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Date endAt;
 	
 	@Column(nullable = false)
@@ -52,11 +53,25 @@ public class Experience implements Serializable {
 	@Column(nullable = true)
 	private String website;
 	
-	@Column(nullable = false)
-	private String logo;
+	@Lob
+	@Column(nullable = true)
+	private byte[] logo;
 	
-	@Column(nullable = false)
-	private String backgroundUrl;
+	@Column(nullable = true)
+	private String logoTypeFile;
+	
+	@Column(nullable = true)
+	private String logoName;
+	
+	@Lob
+	@Column(nullable = true)
+	private byte[] backgroundUrl;
+	
+	@Column(nullable = true)
+	private String backgroundUrlTypeFile;
+
+	@Column(nullable = true)
+	private String backgroundUrlName;
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne(optional = false)
@@ -119,20 +134,52 @@ public class Experience implements Serializable {
 		this.website = website;
 	}
 
-	public String getLogo() {
+	public byte[] getLogo() {
 		return logo;
 	}
 
-	public void setLogo(String logo) {
+	public void setLogo(byte[] logo) {
 		this.logo = logo;
 	}
 
-	public String getBackgroundUrl() {
+	public String getLogoTypeFile() {
+		return logoTypeFile;
+	}
+
+	public void setLogoTypeFile(String logoTypeFile) {
+		this.logoTypeFile = logoTypeFile;
+	}
+
+	public String getLogoName() {
+		return logoName;
+	}
+
+	public void setLogoName(String logoName) {
+		this.logoName = logoName;
+	}
+
+	public byte[] getBackgroundUrl() {
 		return backgroundUrl;
 	}
 
-	public void setBackgroundUrl(String backgroundUrl) {
+	public void setBackgroundUrl(byte[] backgroundUrl) {
 		this.backgroundUrl = backgroundUrl;
+	}
+
+	public String getBackgroundUrlTypeFile() {
+		return backgroundUrlTypeFile;
+	}
+
+	public void setBackgroundUrlTypeFile(String backgroundUrlTypeFile) {
+		this.backgroundUrlTypeFile = backgroundUrlTypeFile;
+	}
+
+	public String getBackgroundUrlName() {
+		return backgroundUrlName;
+	}
+
+	public void setBackgroundUrlName(String backgroundUrlName) {
+		this.backgroundUrlName = backgroundUrlName;
 	}
 
 	public Pessoa getPessoa() {

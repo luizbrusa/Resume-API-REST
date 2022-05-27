@@ -31,8 +31,11 @@ public class Pessoa implements Serializable {
 
 	@Column(nullable = false)
 	private String name;
+	
+	@Column(nullable = false)
+	private String nickname;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -49,11 +52,24 @@ public class Pessoa implements Serializable {
 
 	@Lob
 	@Column(nullable = true)
+	private byte[] perfilImage;
+	
+	@Column(nullable = true)
+	private String perfilImageTypeFile;
+
+	@Lob
+	@Column(nullable = true)
 	private byte[] caricature;
+	
+	@Column(nullable = true)
+	private String caricatureTypeFile;
 	
 	@Lob
 	@Column(nullable = true)
 	private byte[] resume;
+	
+	@Column(nullable = true)
+	private String resumeName;
 
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Internationalization> internationalizations;
@@ -64,6 +80,12 @@ public class Pessoa implements Serializable {
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Hobbie> hobbies;
 		
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Experience> experiences;
+
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Post> posts;
+
 	public Long getId() {
 		return id;
 	}
@@ -78,6 +100,14 @@ public class Pessoa implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public Date getBirth() {
@@ -112,6 +142,22 @@ public class Pessoa implements Serializable {
 		this.location = location;
 	}
 
+	public byte[] getPerfilImage() {
+		return perfilImage;
+	}
+
+	public void setPerfilImage(byte[] perfilImage) {
+		this.perfilImage = perfilImage;
+	}
+
+	public String getPerfilImageTypeFile() {
+		return perfilImageTypeFile;
+	}
+
+	public void setPerfilImageTypeFile(String perfilImageTypeFile) {
+		this.perfilImageTypeFile = perfilImageTypeFile;
+	}
+
 	public byte[] getCaricature() {
 		return caricature;
 	}
@@ -120,12 +166,28 @@ public class Pessoa implements Serializable {
 		this.caricature = caricature;
 	}
 
+	public String getCaricatureTypeFile() {
+		return caricatureTypeFile;
+	}
+
+	public void setCaricatureTypeFile(String caricatureTypeFile) {
+		this.caricatureTypeFile = caricatureTypeFile;
+	}
+
 	public byte[] getResume() {
 		return resume;
 	}
 
 	public void setResume(byte[] resume) {
 		this.resume = resume;
+	}
+
+	public String getResumeName() {
+		return resumeName;
+	}
+
+	public void setResumeName(String resumeName) {
+		this.resumeName = resumeName;
 	}
 
 	public List<Internationalization> getInternationalizations() {
@@ -150,6 +212,22 @@ public class Pessoa implements Serializable {
 
 	public void setHobbies(List<Hobbie> hobbies) {
 		this.hobbies = hobbies;
+	}
+
+	public List<Experience> getExperiences() {
+		return experiences;
+	}
+
+	public void setExperiences(List<Experience> experiences) {
+		this.experiences = experiences;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 }
