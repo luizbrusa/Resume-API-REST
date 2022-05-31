@@ -1,5 +1,6 @@
 package org.luizinfo.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,9 +50,18 @@ public class PostController implements CrudController<Post> {
 		if (objeto.getId() != null) {
 			return new ResponseEntity<String>("ID do Post não deve ser Informado para cadastrar!", HttpStatus.BAD_REQUEST);
 		}
-		for (Internationalization internationalization : objeto.getInternationalizations()) {
-			internationalization.setPost(objeto);
+		if (objeto.getInternationalizations() != null) {
+			for (Internationalization internationalization : objeto.getInternationalizations()) {
+				internationalization.setPost(objeto);
+				internationalization.setPessoa(null);
+				internationalization.setExperience(null);
+			}
 		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(objeto.getDate());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setDate(calendar.getTime());
+		
 		iPost.save(objeto);
 		
 		return new ResponseEntity<Post>(objeto, HttpStatus.OK);
@@ -63,6 +73,18 @@ public class PostController implements CrudController<Post> {
 		if (objeto.getId() == null) {
 			return new ResponseEntity<String>("ID do Post não foi Informado para atualizar!", HttpStatus.BAD_REQUEST);
 		}
+		if (objeto.getInternationalizations().size() > 0) {
+			for (Internationalization internationalization : objeto.getInternationalizations()) {
+				internationalization.setPost(objeto);
+				internationalization.setPessoa(null);
+				internationalization.setExperience(null);
+			}
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(objeto.getDate());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setDate(calendar.getTime());
+
 		Post postAux = iPost.save(objeto);
 		
 		return new ResponseEntity<Post>(postAux, HttpStatus.OK);

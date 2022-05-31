@@ -1,5 +1,6 @@
 package org.luizinfo.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.luizinfo.model.Internationalization;
 import org.luizinfo.model.Media;
 import org.luizinfo.model.Pessoa;
 import org.luizinfo.model.Post;
+import org.luizinfo.model.Technology;
 import org.luizinfo.model.Usuario;
 import org.luizinfo.repository.IPessoa;
 import org.luizinfo.repository.IUsuario;
@@ -64,31 +66,38 @@ public class PessoaController implements CrudController<Pessoa> {
 		if (objeto.getId() != null) {
 			return new ResponseEntity<String>("ID da Pessoa não deve ser Informado para cadastrar!", HttpStatus.BAD_REQUEST);
 		}
-		if (objeto.getMedias().size() > 0) {
+		if (objeto.getMedias() != null) {
 			for (Media media : objeto.getMedias()) {
 				media.setPessoa(objeto);
 			}
 		}
-		if (objeto.getHobbies().size() > 0) {
+		if (objeto.getHobbies() != null) {
 			for (Hobbie hobbie : objeto.getHobbies()) {
 				hobbie.setPessoa(objeto);
 			}
 		}
-		if (objeto.getInternationalizations().size() > 0) {
+		if (objeto.getInternationalizations() != null) {
 			for (Internationalization internationalization : objeto.getInternationalizations()) {
 				internationalization.setPessoa(objeto);
+				internationalization.setExperience(null);
+				internationalization.setPost(null);
 			}
 		}
-		if (objeto.getExperiences().size() > 0) {
+		if (objeto.getExperiences() != null) {
 			for (Experience experience : objeto.getExperiences()) {
 				experience.setPessoa(objeto);
 			}
 		}
-		if (objeto.getPosts().size() > 0) {
+		if (objeto.getPosts() != null) {
 			for (Post post : objeto.getPosts()) {
 				post.setPessoa(objeto);
 			}
 		}
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(objeto.getBirth());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setBirth(calendar.getTime());
 
 		Pessoa pessoaAux = iPessoa.save(objeto);
 
@@ -119,18 +128,38 @@ public class PessoaController implements CrudController<Pessoa> {
 		if (objeto.getInternationalizations().size() > 0) {
 			for (Internationalization internationalization : objeto.getInternationalizations()) {
 				internationalization.setPessoa(objeto);
+				internationalization.setExperience(null);
+				internationalization.setPost(null);
 			}
 		}
 		if (objeto.getExperiences().size() > 0) {
 			for (Experience experience : objeto.getExperiences()) {
 				experience.setPessoa(objeto);
+				for (Internationalization internationalization : experience.getInternationalizations()) {
+					internationalization.setExperience(experience);
+					internationalization.setPessoa(null);
+					internationalization.setPost(null);
+				}
+				for (Technology technology : experience.getTechnologies()) {
+					technology.setExperience(experience);
+				}
 			}
 		}
 		if (objeto.getPosts().size() > 0) {
 			for (Post post : objeto.getPosts()) {
 				post.setPessoa(objeto);
+				for (Internationalization internationalization : post.getInternationalizations()) {
+					internationalization.setPost(post);
+					internationalization.setExperience(null);
+					internationalization.setPessoa(null);
+				}
 			}
 		}
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(objeto.getBirth());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setBirth(calendar.getTime());
 
 		Pessoa pessoaAux = iPessoa.save(objeto);
 		

@@ -1,5 +1,6 @@
 package org.luizinfo.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +49,47 @@ public class ExperienceController implements CrudController<Experience> {
 		if (objeto.getId() != null) {
 			return new ResponseEntity<String>("ID do Registro não deve ser Informado para cadastrar!", HttpStatus.BAD_REQUEST);
 		}
+		if (objeto.getInternationalizations() != null) {
+			for (Internationalization internationalization : objeto.getInternationalizations()) {
+				internationalization.setExperience(objeto);
+				internationalization.setPessoa(null);
+				internationalization.setPost(null);
+			}
+		}
+		if (objeto.getTechnologies() != null) {
+			for (Technology technology : objeto.getTechnologies()) {
+				technology.setExperience(objeto);
+			}
+		}
+		if (objeto.getMedias() != null) {
+			for (Media media : objeto.getMedias()) {
+				media.setExperience(objeto);
+			}
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(objeto.getStartAt());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setStartAt(calendar.getTime());
+
+		calendar.setTime(objeto.getEndAt());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setEndAt(calendar.getTime());
+
+		iExperience.save(objeto);
 		
+		return new ResponseEntity<Experience>(objeto, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> atualizar(Experience objeto, @RequestHeader(name="Authorization") String token) {
+		if (objeto.getId() == null) {
+			return new ResponseEntity<String>("ID do Registro não foi Informado para atualizar!", HttpStatus.BAD_REQUEST);
+		}
 		if (objeto.getInternationalizations().size() > 0) {
 			for (Internationalization internationalization : objeto.getInternationalizations()) {
 				internationalization.setExperience(objeto);
+				internationalization.setPessoa(null);
+				internationalization.setPost(null);
 			}
 		}
 		if (objeto.getTechnologies().size() > 0) {
@@ -64,16 +102,15 @@ public class ExperienceController implements CrudController<Experience> {
 				media.setExperience(objeto);
 			}
 		}
-		iExperience.save(objeto);
-		
-		return new ResponseEntity<Experience>(objeto, HttpStatus.OK);
-	}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(objeto.getStartAt());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setStartAt(calendar.getTime());
 
-	@Override
-	public ResponseEntity<?> atualizar(Experience objeto, @RequestHeader(name="Authorization") String token) {
-		if (objeto.getId() == null) {
-			return new ResponseEntity<String>("ID do Registro não foi Informado para atualizar!", HttpStatus.BAD_REQUEST);
-		}
+		calendar.setTime(objeto.getEndAt());
+		calendar.add(Calendar.DATE, 1);
+		objeto.setEndAt(calendar.getTime());
+
 		Experience experienceAux = iExperience.save(objeto);
 		
 		return new ResponseEntity<Experience>(experienceAux, HttpStatus.OK);
@@ -103,9 +140,9 @@ public class ExperienceController implements CrudController<Experience> {
 	}
 
 	@ApiOperation(value = "Localizar Experiencias de uma Pessoa")
-	@GetMapping(value = "/pessoa/{id}", produces = "application/json")
-	public ResponseEntity<?> localizarExperiencesPessoa(@PathVariable(value = "id") Long id) {
-		Optional<Pessoa> pessoaOp = iPessoa.findById(id);
+	@GetMapping(value = "/pessoa/{idPessoa}", produces = "application/json")
+	public ResponseEntity<?> localizarExperiencesPessoa(@PathVariable(value = "idPessoa") Long idPessoa) {
+		Optional<Pessoa> pessoaOp = iPessoa.findById(idPessoa);
 		
 		if (pessoaOp.isPresent()) {
 			List<Experience> experiences = iExperience.findByPessoa(pessoaOp.get());

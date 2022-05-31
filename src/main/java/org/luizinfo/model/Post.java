@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -37,11 +38,21 @@ public class Post implements Serializable {
 	@Column(nullable = false)
 	private String http;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date date;
+	
+	@Lob
+	@Column(nullable = true)
+	private byte[] file;
+	
+	@Column(nullable = true)
+	private String fileName;
+	
+	@Column(nullable = true)
+	private String fileTypeFile;
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne(optional = false)
@@ -80,6 +91,30 @@ public class Post implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public byte[] getFile() {
+		return file;
+	}
+
+	public void setFile(byte[] file) {
+		this.file = file;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileTypeFile() {
+		return fileTypeFile;
+	}
+
+	public void setFileTypeFile(String fileTypeFile) {
+		this.fileTypeFile = fileTypeFile;
 	}
 
 	public Pessoa getPessoa() {
