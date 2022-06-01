@@ -33,9 +33,6 @@ public class Post implements Serializable {
 	private Long id;
 	
 	@Column(nullable = false)
-	private String thumbnail;
-	
-	@Column(nullable = false)
 	private String http;
 	
 	@JsonFormat(pattern = "MM/dd/yyyy")
@@ -43,6 +40,16 @@ public class Post implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date date;
+	
+	@Lob
+	@Column(nullable = true)
+	private byte[] thumbnail;
+
+	@Column(nullable = true)
+	private String thumbnailName;
+	
+	@Column(nullable = true)
+	private String thumbnailTypeFile;
 	
 	@Lob
 	@Column(nullable = true)
@@ -69,14 +76,6 @@ public class Post implements Serializable {
 		this.id = id;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-
 	public String getHttp() {
 		return http;
 	}
@@ -91,6 +90,30 @@ public class Post implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public byte[] getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(byte[] thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
+	public String getThumbnailName() {
+		return thumbnailName;
+	}
+
+	public void setThumbnailName(String thumbnailName) {
+		this.thumbnailName = thumbnailName;
+	}
+
+	public String getThumbnailTypeFile() {
+		return thumbnailTypeFile;
+	}
+
+	public void setThumbnailTypeFile(String thumbnailTypeFile) {
+		this.thumbnailTypeFile = thumbnailTypeFile;
 	}
 
 	public byte[] getFile() {
