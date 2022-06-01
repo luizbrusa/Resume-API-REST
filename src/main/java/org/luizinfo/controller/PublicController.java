@@ -98,4 +98,26 @@ public class PublicController {
 
 		return new ResponseEntity<Erro>(erro,HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/enviarEmail")
+	public ResponseEntity<?> enviarEmail(@RequestBody String email) {
+		
+		Erro erro = new Erro();
+		EmailService emailService = new EmailService();
+		try {
+			String[] contact = email.split("\",\"");
+			emailService.enviarEmail(contact[0].split(":")[1].replace("\"","") + " entrou em contato em: " + 
+			        contact[3].split(":")[1].replace("\"","").replace("}", ""),
+					contact[1].split(":")[1].replace("\"",""), 
+					contact[2].split(":")[1].replace("\"",""));
+
+			erro.setCode("200");
+			erro.setError("E-mail enviado com Sucesso!");
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<Erro>(erro,HttpStatus.OK);
+	}	
 }

@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 	
-	private String user = "e-mail do GMAIL"; //Seu e-mail do GMAIL
-	private String pass = "Senha do GMAIL";  //Sua Senha do e-mail do GMAIL
+	private String user = ""; //Seu e-mail do GMAIL
+	private String pass = "";  //Sua Senha do e-mail do GMAIL
 	
 	public void enviarEmail (String assunto, String emailDestino, String mensagem) throws MessagingException {
 
