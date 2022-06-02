@@ -94,10 +94,10 @@ public class PessoaController implements CrudController<Pessoa> {
 			}
 		}
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(objeto.getBirth());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setBirth(calendar.getTime());
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTime(objeto.getBirth());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setBirth(calendar.getTime());
 
 		Pessoa pessoaAux = iPessoa.save(objeto);
 
@@ -156,10 +156,10 @@ public class PessoaController implements CrudController<Pessoa> {
 			}
 		}
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(objeto.getBirth());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setBirth(calendar.getTime());
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTime(objeto.getBirth());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setBirth(calendar.getTime());
 
 		Pessoa pessoaAux = iPessoa.save(objeto);
 		

@@ -57,10 +57,10 @@ public class PostController implements CrudController<Post> {
 				internationalization.setExperience(null);
 			}
 		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(objeto.getDate());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setDate(calendar.getTime());
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTime(objeto.getDate());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setDate(calendar.getTime());
 		
 		iPost.save(objeto);
 		
@@ -80,10 +80,10 @@ public class PostController implements CrudController<Post> {
 				internationalization.setExperience(null);
 			}
 		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(objeto.getDate());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setDate(calendar.getTime());
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTime(objeto.getDate());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setDate(calendar.getTime());
 
 		Post postAux = iPost.save(objeto);
 		

@@ -66,14 +66,14 @@ public class ExperienceController implements CrudController<Experience> {
 				media.setExperience(objeto);
 			}
 		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(objeto.getStartAt());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setStartAt(calendar.getTime());
-
-		calendar.setTime(objeto.getEndAt());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setEndAt(calendar.getTime());
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTime(objeto.getStartAt());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setStartAt(calendar.getTime());
+//
+//		calendar.setTime(objeto.getEndAt());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setEndAt(calendar.getTime());
 
 		iExperience.save(objeto);
 		
@@ -102,14 +102,14 @@ public class ExperienceController implements CrudController<Experience> {
 				media.setExperience(objeto);
 			}
 		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(objeto.getStartAt());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setStartAt(calendar.getTime());
-
-		calendar.setTime(objeto.getEndAt());
-		calendar.add(Calendar.DATE, 1);
-		objeto.setEndAt(calendar.getTime());
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTime(objeto.getStartAt());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setStartAt(calendar.getTime());
+//
+//		calendar.setTime(objeto.getEndAt());
+//		calendar.add(Calendar.DATE, 1);
+//		objeto.setEndAt(calendar.getTime());
 
 		Experience experienceAux = iExperience.save(objeto);
 		
