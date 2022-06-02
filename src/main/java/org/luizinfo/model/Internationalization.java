@@ -24,7 +24,7 @@ public class Internationalization implements Serializable {
 	@Column(nullable = false)
 	private String language;
 		
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String description;
 	
 	@Column(nullable = true)
