@@ -1,6 +1,5 @@
 package org.luizinfo.controller;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,16 +63,9 @@ public class ExperienceController implements CrudController<Experience> {
 		if (objeto.getMedias() != null) {
 			for (Media media : objeto.getMedias()) {
 				media.setExperience(objeto);
+				media.setPessoa(null);
 			}
 		}
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(objeto.getStartAt());
-//		calendar.add(Calendar.DATE, 1);
-//		objeto.setStartAt(calendar.getTime());
-//
-//		calendar.setTime(objeto.getEndAt());
-//		calendar.add(Calendar.DATE, 1);
-//		objeto.setEndAt(calendar.getTime());
 
 		iExperience.save(objeto);
 		
@@ -100,16 +92,9 @@ public class ExperienceController implements CrudController<Experience> {
 		if (objeto.getMedias().size() > 0) {
 			for (Media media : objeto.getMedias()) {
 				media.setExperience(objeto);
+				media.setPessoa(null);
 			}
 		}
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(objeto.getStartAt());
-//		calendar.add(Calendar.DATE, 1);
-//		objeto.setStartAt(calendar.getTime());
-//
-//		calendar.setTime(objeto.getEndAt());
-//		calendar.add(Calendar.DATE, 1);
-//		objeto.setEndAt(calendar.getTime());
 
 		Experience experienceAux = iExperience.save(objeto);
 		

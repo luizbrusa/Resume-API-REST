@@ -1,6 +1,5 @@
 package org.luizinfo.controller;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,6 +68,7 @@ public class PessoaController implements CrudController<Pessoa> {
 		if (objeto.getMedias() != null) {
 			for (Media media : objeto.getMedias()) {
 				media.setPessoa(objeto);
+				media.setExperience(null);
 			}
 		}
 		if (objeto.getHobbies() != null) {
@@ -94,11 +94,6 @@ public class PessoaController implements CrudController<Pessoa> {
 			}
 		}
 
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(objeto.getBirth());
-//		calendar.add(Calendar.DATE, 1);
-//		objeto.setBirth(calendar.getTime());
-
 		Pessoa pessoaAux = iPessoa.save(objeto);
 
 		Usuario usuario = iUsuario.findByLogin(jwtTokenAutenticacaoService.getLoginUsuarioToken(token));
@@ -118,6 +113,7 @@ public class PessoaController implements CrudController<Pessoa> {
 		if (objeto.getMedias().size() > 0) {
 			for (Media media : objeto.getMedias()) {
 				media.setPessoa(objeto);
+				media.setExperience(null);
 			}
 		}
 		if (objeto.getHobbies().size() > 0) {
@@ -155,11 +151,6 @@ public class PessoaController implements CrudController<Pessoa> {
 				}
 			}
 		}
-
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(objeto.getBirth());
-//		calendar.add(Calendar.DATE, 1);
-//		objeto.setBirth(calendar.getTime());
 
 		Pessoa pessoaAux = iPessoa.save(objeto);
 		
