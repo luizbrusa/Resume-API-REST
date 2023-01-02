@@ -21,17 +21,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos Públicos da API")
+@Tag(name = "Index", description = "Métodos Públicos da API")
 public class PublicController {
 	
 	@Autowired
 	private IUsuario iUsuario;
 
-	@ApiOperation(value = "Index de Testes da Aplicação")
+	@Operation(description = "Index de Testes da Aplicação")
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<String> index() {
 

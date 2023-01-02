@@ -11,10 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Hobbies")
+@Tag(name = "Hobbie", description = "Métodos do Controller de Hobbies")
 @RequestMapping(value = "/hobbie")
 public class HobbieController implements CrudController<Hobbie> {
 

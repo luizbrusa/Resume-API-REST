@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Usuários")
+@Tag(name = "Usuários", description = "Métodos do Controller de Usuários")
 @RequestMapping(value = "/usuario")
 public class UsuarioController implements CrudController<Usuario> {
 	
@@ -103,7 +103,7 @@ public class UsuarioController implements CrudController<Usuario> {
 		}
 	}
 
-	@ApiOperation(value = "Localizar Usuários por uma parte do login")
+	@Operation(summary = "Localizar Usuários por uma parte do login")
 	@GetMapping(value = "/listar/{login}", produces = "application/json")
 	public ResponseEntity<?> localizar(@PathVariable(value = "login") String login) throws InterruptedException {
 		

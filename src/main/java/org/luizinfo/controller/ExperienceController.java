@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Experiences")
+@Tag(name = "Experiences", description = "Métodos do Controller de Experiences")
 @RequestMapping(value = "/experience")
 public class ExperienceController implements CrudController<Experience> {
 
@@ -124,7 +124,7 @@ public class ExperienceController implements CrudController<Experience> {
 		}
 	}
 
-	@ApiOperation(value = "Localizar Experiencias de uma Pessoa")
+	@Operation(summary = "Localizar Experiencias de uma Pessoa")
 	@GetMapping(value = "/pessoa/{idPessoa}", produces = "application/json")
 	public ResponseEntity<?> localizarExperiencesPessoa(@PathVariable(value = "idPessoa") Long idPessoa) {
 		Optional<Pessoa> pessoaOp = iPessoa.findById(idPessoa);

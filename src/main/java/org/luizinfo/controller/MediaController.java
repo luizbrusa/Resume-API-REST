@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Medias")
+@Tag(name = "Media", description = "Métodos do Controller de Medias")
 @RequestMapping(value = "/media")
 public class MediaController implements CrudController<Media> {
 	

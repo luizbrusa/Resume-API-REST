@@ -1,6 +1,5 @@
 package org.luizinfo.controller;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Posts")
+@Tag(name = "Posts", description = "Métodos do Controller de Posts")
 @RequestMapping(value = "/post")
 public class PostController implements CrudController<Post> {
 	
@@ -113,7 +112,7 @@ public class PostController implements CrudController<Post> {
 		}
 	}
 
-	@ApiOperation(value = "Localizar Posts de uma Pessoa")
+	@Operation(description = "Localizar Posts de uma Pessoa")
 	@GetMapping(value = "/pessoa/{id}", produces = "application/json")
 	public ResponseEntity<?> localizarPostsPessoa(@PathVariable(value = "id") Long id) {
 		Optional<Pessoa> pessoaOp = iPessoa.findById(id);

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.7</version>
+		<version>2.7.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.luizinfo</groupId>
@@ -15,7 +15,7 @@
 	<name>resumeREST</name>
 	<description>Resume API REST</description>
 	<properties>
-	    <java.version>18</java.version>
+	    <java.version>17</java.version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <maven.test.skip>true</maven.test.skip>
 	</properties>
@@ -87,11 +87,11 @@
 		    <version>1.6.2</version>
 		</dependency>
 
-		<!-- SpringFox Swagger -->
+   		<!-- SpringDoc Swagger -->
 		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-boot-starter</artifactId>
-		    <version>3.0.0</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.14</version>
 		</dependency>
 	</dependencies>
 

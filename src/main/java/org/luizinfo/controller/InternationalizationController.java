@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Internationalizations")
+@Tag(name = "", description = "Métodos do Controller de Internationalizations")
 @RequestMapping(value = "/internationalization")
 public class InternationalizationController implements CrudController<Internationalization> {
 	
@@ -91,7 +91,7 @@ public class InternationalizationController implements CrudController<Internatio
 		}
 	}
 
-	@ApiOperation(value = "Listar Registros por Pessoa")
+	@Operation(summary = "Listar Registros por Pessoa")
 	@GetMapping(value = "/pessoa/{idPessoa}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> listarPorPesssoa(@PathVariable(value = "idPessoa") Long idPessoa) {
 		

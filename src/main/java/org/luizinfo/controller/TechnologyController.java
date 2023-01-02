@@ -11,10 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Experiences")
+@Tag(name = "Tecnolgoias", description = "Métodos do Controller de Experiences")
 @RequestMapping(value = "/technology")
 public class TechnologyController implements CrudController<Technology> {
 

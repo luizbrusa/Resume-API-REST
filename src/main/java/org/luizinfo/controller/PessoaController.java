@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Api(tags = "Métodos do Controller de Pessoas")
+@Tag(name = "Pessoas", description = "Métodos do Controller de Pessoas")
 @RequestMapping(value = "/pessoa")
 public class PessoaController implements CrudController<Pessoa> {
 	
@@ -181,7 +181,7 @@ public class PessoaController implements CrudController<Pessoa> {
 		}
 	}
 
-	@ApiOperation(value = "Localizar Pessoas por uma parte do nome")
+	@Operation(summary = "Localizar Pessoas por uma parte do nome")
 	@GetMapping(value = "/listar/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> localizar(@PathVariable(value = "nome") String nome) throws InterruptedException {
 		
@@ -189,7 +189,7 @@ public class PessoaController implements CrudController<Pessoa> {
 		return new ResponseEntity<List<Pessoa>>(pessoas, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Retornar Pessoa vinculada a um Usuário")
+	@Operation(summary = "Retornar Pessoa vinculada a um Usuário")
 	@GetMapping(value = "/usuario/{loginUser}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> localizarPorUsuario(@PathVariable(value = "loginUser") String loginUser) {
 		Usuario usuario = iUsuario.findByLogin(loginUser);
